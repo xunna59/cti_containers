@@ -16,6 +16,9 @@ class QuoteController extends Controller
     public function index()
     {
         //
+        $allQuotes = Quote::latest()->paginate(4);
+
+        return view('admin/dashboard', ['allQuotes' => $allQuotes]);
     }
 
     /**
