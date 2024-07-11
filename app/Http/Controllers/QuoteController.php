@@ -16,9 +16,7 @@ class QuoteController extends Controller
     public function index()
     {
         //
-        $allQuotes = Quote::latest()->paginate(4);
 
-        return view('admin/dashboard', ['allQuotes' => $allQuotes]);
     }
 
     /**
@@ -62,7 +60,7 @@ class QuoteController extends Controller
         $body = [
             'secret' => config('services.recaptcha.secret'),
             'response' => $recaptchaResponse,
-            'remoteip' => $ip 
+            'remoteip' => $ip
         ];
 
         try {

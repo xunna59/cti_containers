@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\QuoteController;
 
 Route::get('/user', function (Request $request) {
@@ -9,4 +10,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-// Route::apiResource('quotes', QuoteController::class);
+Route::post('/register', [AuthController::class, 'register']);

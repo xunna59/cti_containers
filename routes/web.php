@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('index');
@@ -24,7 +25,7 @@ Route::get('/contact/get-quote', function () {
     return view('contact');
 })->name('get-quote');
 
-Route::get('/services', function(){
+Route::get('/services', function () {
     return redirect()->route('services.container-homes');
 })->name('services.home');
 
@@ -42,8 +43,13 @@ Route::get('/services/consultation', function () {
 
 Route::post('/contact', [QuoteController::class, 'store'])->name('contact.quote');
 
-Route::resource('admin/dashboard', QuoteController::class);
+Route::get('admin/login', [AuthController::class, 'index'])->name('login');
+Route::post('admin/login', [AuthController::class, 'login'])->name('login.perform');
+Route::post('admin/logout', [AuthController::class, 'logout'])->name('logout.perform');
+Route::get('admin/register', [AuthController::class, 'showRegistrationForm'])->name('register.index');
+Route::post('admin/register', [AuthController::class, 'register'])->name('register.perform');
 
-Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
-Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
-Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+// Protected routes
+Route::middleware('auth')->group(function () {
+    Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+});
